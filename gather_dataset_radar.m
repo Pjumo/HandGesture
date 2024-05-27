@@ -5,13 +5,18 @@ numTX = 3;
 numRX = 4; % number of receivers
 numLanes = 2; % do not change. number of lanes is always 2
 isReal = 0; % set to 1 if real only data, 0 if complex data0
+time_split_start = [10, 125, 250, 375, 500, 625, 750, 875];
+time_split_end = [60, 175, 300, 425, 550, 675, 800, 925];
 %% read file
 % read .bin file
-for action_num=1:20
-    movement = "doubleclick_" + string(action_num);
+action = "any";
+for action_num=1:5
+    movement = action + string(action_num);
     filepath = "bin_radar\";
     filename = filepath + movement + ".bin";
-    pngname = "dataset\image\" + movement + ".png";
+    numpypath = "dataset\" + action + "_r\";
+    % filenum = readmatrix(numpypath + "last_idx.txt");
+
     fid = fopen(filename,'r');
     adcData = fread(fid, 'int16');
     
@@ -83,36 +88,34 @@ for action_num=1:20
         end
         velocity = reshape(velocity, m_chirps, 1);
         velocity_time(:, j) = velocity;
-        
-    
-        % set(gca,'Position',[0 0 1 1]);
-        % set(gca,'xtick',[],'ytick',[])
-        % pngname = join(['example4_',num2str(j),'.jpg']);
-        % saveas(gcf,fullfile('D:\PJM\대학\연구실\ICSL angle extraction\signal_ex\', pngname));
-    
-        % frm = getframe(1);
-        % img = frame2im(frm);
-        % [imind, cm] = rgb2ind(img, 256);
-        % 
-        % if j == 1
-        %     % 첫 프레임의 경우, GIF 파일 생성
-        %     imwrite(imind, cm, gifname, 'gif', 'Loopcount', 1, 'DelayTime', 0.1);
-        % else
-        %     % 이후 프레임의 경우, 기존 GIF 파일에 추가
-        %     imwrite(imind, cm, gifname, 'gif', 'WriteMode', 'append', 'DelayTime', 0.1);
-        % end
     end
     
-    time_axis_img = (1:1000)* 0.04;
-    vel_axis_img=(-64:63)* 0.1201;
-    figure(1)
-    imagesc(time_axis_img, vel_axis_img, 20*log10(abs(velocity_time)))
-    xlabel('time in s');
-    ylabel('velocity in m/s');
-    colorbar
-    clim([80, 150])
+    seq = log10(abs(velocity_time))/10;
     
-    saveas(gcf,fullfile(pngname));
+    writeNPY(seq, numpypath + action + "_" + action_num + ".npy")
+    % for j=1:8
+    %     filenum = filenum + 1;
+    %     velocity_time_split = log10(abs(velocity_time(:, (time_split_start(j)+1):time_split_end(j))))/10;
+    %     writeNPY(velocity_time_split, numpypath + action + "_" + filenum + ".npy")
+    % end
+    % writematrix(filenum, numpypath + "last_idx.txt")
+    % 
+    % for j=1:7
+    %     filenum_nothing = filenum_nothing + 1;
+    %     velocity_time_split = log10(abs(velocity_time(:, (time_split_nothing_start(j)+1):time_split_nothing_end(j))))/10;
+    %     writeNPY(velocity_time_split, numpypath_nothing + "nothing_" + filenum_nothing + ".npy")
+    % 
+    %     % time_axis_img = ((time_split_nothing_start(j)+1):time_split_nothing_end(j))* 0.04;
+    %     % vel_axis_img=(-64:63)* 0.1201;
+    %     % figure(1)
+    %     % imagesc(time_axis_img, vel_axis_img, 20*velocity_time_split)
+    %     % xlabel('time in s');
+    %     % ylabel('velocity in m/s');
+    %     % colorbar
+    %     % clim([80, 150])
+    %     % pause(2)
+    % end
+    % writematrix(filenum_nothing, numpypath_nothing + "last_idx.txt")
 end
 
 

@@ -7,10 +7,10 @@ numLanes = 2; % do not change. number of lanes is always 2
 isReal = 0; % set to 1 if real only data, 0 if complex data0
 %% read file
 % read .bin file
-movement = "swipping";
-filepath = "D:\PJM\university\Capstone\dataset\";
+movement = "click_1";
+filepath = "bin_radar\";
 filename = filepath + movement + ".bin";
-gifname = filepath + "gif\" + movement + ".gif";
+gifname = "gif\" + movement + ".gif";
 fid = fopen(filename,'r');
 adcData = fread(fid, 'int16');
 
@@ -60,9 +60,9 @@ Receiver_2= retVal(2,:);
 Receiver_3= retVal(3,:);
 Receiver_4= retVal(4,:);
 
-frames=100;
+frames=1000;
 s=size(Receiver_2,2)/frames;
-m_chirps=s/numADCSamples/3;
+m_chirps=s/numADCSamples;
 Receiver_1=reshape(Receiver_1,s,frames);
 Receiver_2=reshape(Receiver_2,s,frames);
 Receiver_3=reshape(Receiver_3,s,frames);
@@ -70,9 +70,7 @@ Receiver_4=reshape(Receiver_4,s,frames);
 B = zeros(numADCSamples, m_chirps);
 for j=1:frames
     A=Receiver_4( :, j);
-    B_1=reshape(A,numADCSamples, 3, m_chirps);
-    B=B_1(:, 2, :);
-    B=reshape(B, numADCSamples, m_chirps);
+    B=reshape(A,numADCSamples, m_chirps);
 
     doppler_main=fft2(B);
     doppler_main = fftshift(doppler_main, 2);
