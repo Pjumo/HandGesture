@@ -10,19 +10,22 @@ import cv2
 import mediapipe as mp
 import pickle
 
-np.set_printoptions(threshold=np.inf, linewidth=np.inf)
+np.set_printoptions(threshold=np.inf, linewidth=np.inf, suppress=True)
 # gathering data code
 '''
 for i in range(20):
-    path = f'./video_webcam/altf{i+1}.mp4'
+    path = f'./video_webcam/click_{i+1}.mp4'
     webcam = cam.WebCamData(path)
     print(i+1)
-    webcam.split_video_altf()
+    webcam.split_video()
     # webcam.show_skeleton()
 '''
 # train.train_video()
-train.train_radar()
-# test.test_video()
+# train.train_radar()
+test.test_video()
+
+# seq = np.load('dataset/click_r/click_1.npy')
+# print(seq)
 
 # history = pickle.load(open('models/trainHistoryDict_webcam', 'rb'))
 # fig = plt.figure()
@@ -37,12 +40,16 @@ train.train_radar()
 #     max_num_hands=1,
 #     min_detection_confidence=0.5,
 #     min_tracking_confidence=0.5)
-# cap = cv2.VideoCapture('video_webcam/any5.mp4')
+# cap = cv2.VideoCapture('dataset/test/video/test5.mp4')
 # cv2.namedWindow('webcam', cv2.WINDOW_AUTOSIZE)
 # seq = []
 # cnt = 0
-# while cap.isOpened():
+# while True:
 #     ret, img = cap.read()
+#     if not ret:
+#         print(np.array(seq[0:1500]).shape)
+#         np.save(os.path.join(f'dataset/test', f'seq_5'), seq[0:1500])
+#         break
 #     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 #     result = hands.process(img)
 #     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
@@ -83,5 +90,3 @@ train.train_radar()
 #     cnt += 1
 #     if cv2.waitKey(1) == ord('q'):
 #         break
-#     if cnt == 1040:
-#         np.save(os.path.join(f'dataset/any', f'seq_5'), seq[40:])

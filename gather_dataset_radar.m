@@ -9,10 +9,10 @@ time_split_start = [10, 125, 250, 375, 500, 625, 750, 875];
 time_split_end = [60, 175, 300, 425, 550, 675, 800, 925];
 %% read file
 % read .bin file
-action = "any";
-for action_num=1:5
+action = "test";
+for action_num=5:5
     movement = action + string(action_num);
-    filepath = "bin_radar\";
+    filepath = "dataset\test\radar\";
     filename = filepath + movement + ".bin";
     numpypath = "dataset\" + action + "_r\";
     % filenum = readmatrix(numpypath + "last_idx.txt");
@@ -66,7 +66,7 @@ for action_num=1:5
     Receiver_3= retVal(3,:);
     Receiver_4= retVal(4,:);
     
-    frames=1000;
+    frames=1500;
     s=size(Receiver_2,2)/frames;
     m_chirps=s/numADCSamples;
     Receiver_1=reshape(Receiver_1,s,frames);
@@ -83,7 +83,7 @@ for action_num=1:5
         doppler_main = fftshift(doppler_main, 2);
         doppler_main(abs(doppler_main)<2e+4) = 0;
         velocity = zeros(1, m_chirps);
-        for k=1:30
+        for k=1:30 % concat near range doppler
             velocity = velocity + doppler_main(k, :);
         end
         velocity = reshape(velocity, m_chirps, 1);
