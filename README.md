@@ -8,3 +8,4 @@
 
 * Radar를 통해 열악한 환경에서도 제스처 인식 가능
   * Radar에서 얻은 Doppler 정보로 각각의 제스처 구분 가능
+<img width="80%" src="https://github.com/user-attachments/assets/3af1aacf-060a-408b-9df7-edd2932407e5"/>
