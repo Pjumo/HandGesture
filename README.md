@@ -24,3 +24,6 @@
   * 5 : AltF4 (손을 편 채로 앞으로 내리기)
 
 * 데이터 수집 방법
+<img width="80%" src="https://github.com/user-attachments/assets/e8437feb-9306-4b83-b5bc-9e9cf4d8fb69"/>
+
+# 시연영상
